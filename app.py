@@ -8,4 +8,10 @@ def index():
 
 @app.route("/intratuin")
 def intratuin():
-    return render_template("intratuin.html")
+    customer = "Intratuin"
+    return render_template("intratuin.html", customer=customer)
+
+@app.route("/hetoosten")
+def hetoosten():
+    customer = "Het Oosten"
+    return render_template("intratuin.html", customer=customer)
