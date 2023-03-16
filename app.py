@@ -6,22 +6,16 @@ app = Flask(__name__)
 def index():
     return render_template("index.html")
 
-@app.route("/intratuin")
-def intratuin():
-    customer = "Intratuin"
-    return render_template("customer.html", customer=customer)
+@app.route("/<customer>")
+def customerpage(customer):
+    if (customer == "intratuin" or customer == "het_oosten"):
+        return render_template("customer.html", customer=customer)
+    else: 
+        return render_template("error.html", text="Customer not available")
 
-@app.route("/hetoosten")
-def hetoosten():
-    customer = "Het Oosten"
-    return render_template("customer.html", customer=customer)
-
-@app.route("/intratuin/querytester")
-def intratuin_querytester():
-    customer = "Intratuin"
-    return render_template("querytester.html", customer=customer)
-
-@app.route("/hetoosten/querytester")
-def hetoosten_querytester():
-    customer = "Het Oosten"
-    return render_template("querytester.html", customer=customer)
+@app.route("/<customer>/querytester")
+def querytester(customer):
+    if (customer == "intratuin" or customer == "het_oosten"):
+        return render_template("querytester.html", customer=customer)
+    else: 
+        return render_template("error.html", text="Customer not available")
