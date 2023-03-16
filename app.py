@@ -15,3 +15,13 @@ def intratuin():
 def hetoosten():
     customer = "Het Oosten"
     return render_template("customer.html", customer=customer)
+
+@app.route("/intratuin/querytester")
+def intratuin_querytester():
+    customer = "Intratuin"
+    return render_template("querytester.html", customer=customer)
+
+@app.route("/hetoosten/querytester")
+def hetoosten_querytester():
+    customer = "Het Oosten"
+    return render_template("querytester.html", customer=customer)
