@@ -9,9 +9,9 @@ def index():
 @app.route("/intratuin")
 def intratuin():
     customer = "Intratuin"
-    return render_template("intratuin.html", customer=customer)
+    return render_template("customer.html", customer=customer)
 
 @app.route("/hetoosten")
 def hetoosten():
     customer = "Het Oosten"
-    return render_template("intratuin.html", customer=customer)
+    return render_template("customer.html", customer=customer)
