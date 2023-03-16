@@ -5,3 +5,7 @@ app = Flask(__name__)
 @app.route("/")
 def index():
     return render_template("index.html")
+
+@app.route("/intratuin")
+def intratuin():
+    return render_template("intratuin.html")
