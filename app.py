@@ -11,24 +11,18 @@ def index():
 def customerpage(customer):
     if (customer == "intratuin" or customer == "het_oosten"):
         # Replace underscore with space
-        customerCap = customer.replace("_", " ")
+        customer = customer.replace("_", " ")
 
         # Make first letter of each word uppercase
-        customerFriendly = string.capwords(customerCap)
+        customer = string.capwords(customer)
 
-        return render_template("customer.html", customerFriendly=customerFriendly, customer=customer)
+        return render_template("customer.html", customer=customer)
     else: 
         return render_template("error.html", text="Customer not available")
 
 @app.route("/<customer>/querytester")
 def querytester(customer):
     if (customer == "intratuin" or customer == "het_oosten"):
-        # Replace underscore with space
-        customerCap = customer.replace("_", " ")
-
-        # Make first letter of each word uppercase
-        customerFriendly = string.capwords(customerCap)
-
-        return render_template("querytester.html", customerFriendly=customerFriendly, customer=customer)
+        return render_template("querytester.html", customer=customer)
     else: 
-        return render_template("error.html", text="Customer for querytester not available")
+        return render_template("error.html", text="Customer not available")
