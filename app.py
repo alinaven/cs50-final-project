@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+import string
 
 app = Flask(__name__)
 
@@ -9,6 +10,11 @@ def index():
 @app.route("/<customer>")
 def customerpage(customer):
     if (customer == "intratuin" or customer == "het_oosten"):
+        # Replace underscore with space
+        customer = customer.replace("_", " ")
+
+        # Make first letter of each word uppercase
+        customer = string.capwords(customer)
         return render_template("customer.html", customer=customer)
     else: 
         return render_template("error.html", text="Customer not available")
