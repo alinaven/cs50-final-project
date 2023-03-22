@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+  {% block body %}
+  <div class="container">
+    <div class="row">
+      <div class="col-sm">
+        <h1>{{customerFriendly}}</h1>
+      </div>
+    </div>
+    <div class="row" class="plantform-field">
+      <div class="col-sm">
+        Plantform.Prijs
+      </div>
+      <div class="col-sm">
+        Dropdown "Table"
+      </div>
+      <div class="col-sm">
+        Dropdown "Field"
+      </div>
+    </div>
+    <div class="row" class="plantform-field">
+      <div class="col-sm">
+        Plantform.Naam
+      </div>
+      <div class="col-sm">
+        Dropdown "Table"
+      </div>
+      <div class="col-sm">
+        Dropdown "Field"
+      </div>
+    </div>
+    <div class="row" class="plantform-field">
+      <div class="col-sm">
+        Plantform.Aantal
+      </div>
+      <div class="col-sm">
+        Dropdown "Table"
+      </div>
+      <div class="col-sm">
+        Dropdown "Field"
+      </div>
+    </div>
+    <div class="row" class="plantform-field">
+      <div class="col-sm">
+        Plantform.Foto
+      </div>
+      <div class="col-sm">
+        Dropdown "Table"
+      </div>
+      <div class="col-sm">
+        Dropdown "Field"
+      </div>
+    </div>
+    <div class="row" class="execute-section">
+      <div class="col-sm">
+        Plant-ID  [form]
+      </div>
+      <div class="col-sm">
+        <a role="button" class="btn btn-light" href="/{{customer}}/querytester">Querytester</a>
+      </div>
+      <div class="col-sm">
+        <a role="button" class="btn btn-light">Save</a>
+      </div>
+    </div>
+  </div>
+  {% endblock %}
