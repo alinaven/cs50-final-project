@@ -1,58 +1,104 @@
 {% extends "layout.html" %}
   {% block body %}
-  <div class="container">
+  <div class="container customer-page">
     <div class="row">
       <div class="col-sm">
         <h1>{{customerFriendly}}</h1>
       </div>
     </div>
     <div class="row" class="plantform-field">
-      <div class="col-sm">
+      <div class="col-sm field-name">
         Plantform.Prijs
       </div>
-      <div class="col-sm">
-        Dropdown "Table"
+      <div class="col-sm dropdown show" id="price-table-dropdown">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Table
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <a class="dropdown-item" href="#">Table A</a>
+        </div>
       </div>
-      <div class="col-sm">
-        Dropdown "Field"
+      <div class="col-sm dropdown show" id="price-field-dropdown">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Field
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <a class="dropdown-item" href="#">Field A</a>
+          <a class="dropdown-item" href="#">Field B</a>
+        </div>
       </div>
     </div>
     <div class="row" class="plantform-field">
-      <div class="col-sm">
+      <div class="col-sm field-name">
         Plantform.Naam
       </div>
-      <div class="col-sm">
-        Dropdown "Table"
+      <div class="col-sm dropdown show" id="name-table-dropdown">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Table
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <a class="dropdown-item" href="#">Table A</a>
+        </div>
       </div>
-      <div class="col-sm">
-        Dropdown "Field"
+      <div class="col-sm dropdown show" id="name-field-dropdown">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Field
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <a class="dropdown-item" href="#">Field A</a>
+        </div>
       </div>
     </div>
     <div class="row" class="plantform-field">
-      <div class="col-sm">
+      <div class="col-sm field-name">
         Plantform.Aantal
       </div>
-      <div class="col-sm">
-        Dropdown "Table"
+      <div class="col-sm dropdown show" id="amount-table-dropdown">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Table
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <a class="dropdown-item" href="#">Table A</a>
+        </div>
       </div>
-      <div class="col-sm">
-        Dropdown "Field"
+      <div class="col-sm dropdown show" id="amount-field-dropdown">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Field
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <a class="dropdown-item" href="#">Field A</a>
+        </div>
       </div>
     </div>
     <div class="row" class="plantform-field">
-      <div class="col-sm">
+      <div class="col-sm field-name">
         Plantform.Foto
       </div>
-      <div class="col-sm">
-        Dropdown "Table"
+      <div class="col-sm dropdown show" id="picture-table-dropdown">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Table
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <a class="dropdown-item" href="#">Table A</a>
+        </div>
       </div>
-      <div class="col-sm">
-        Dropdown "Field"
+      <div class="col-sm dropdown show" id="picture-field-dropdown">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Field
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <a class="dropdown-item" href="#">Field A</a>
+        </div>
       </div>
     </div>
+  <hr>
     <div class="row" class="execute-section">
       <div class="col-sm">
-        Plant-ID  [form]
+      <form>
+        <div class="form-group plant-ID-input">
+          <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Fill in ID">
+        </div>
+      </form>
       </div>
       <div class="col-sm">
         <a role="button" class="btn btn-light" href="/{{customer}}/querytester">Querytester</a>
