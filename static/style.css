@@ -1,8 +1,51 @@
-body {
-    background-color: lightcyan;
+.customer-page div {
+    margin: 20px;
+}
+
+.homepage-header {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    margin: 40px;
+}
+
+.homepage-header h1 {
+    font-size: 110px !important;
+    padding: 10px;
+    font-family: 'Caveat', cursive;
+    font-weight: bold;
+}
+
+.homepage-descripton {
+    margin-top: 30px;
+}
+
+.store-selection {
+    background-color: lightseagreen;
+    padding: 50px;
+    margin: 0px;
 }
 
 h2 {
-    color: black;
-    text-decoration: underline;
+    font-size: 25px;
+}
+
+.store-selection-buttons {
+    margin: 10px;
+    padding: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.store-selection-button {
+    margin: 10px;
+    padding: 10px;
+}
+
+.store-selection-text {
+    color: white;
+}
+
+.plant-ID-input {
+    margin: 0px;
+    padding: 0px;
 }
