@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, g, current_app
 from helper import make_friendly
 import sqlite3
 
@@ -19,9 +19,7 @@ def customerpage(customer):
     conn.execute('CREATE TABLE customers(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, suffix TEXT NOT NULL)')
     conn.execute('INSERT INTO customers (name, suffix) VALUES (?, ?)', ["Intratuin", "intratuin"])
     conn.execute('INSERT INTO customers (name, suffix) VALUES (?, ?)', ["Het Oosten", "het_oosten"])
-    cursor = conn.execute('SELECT suffix FROM customers')
-    print(cursor)
-    data = cursor.fetchall()
+    data = conn.execute('SELECT suffix FROM customers').fetchall()
     print(data)
     if customer in data:
         return render_template("customer.html", customerFriendly=make_friendly(customer), customer=customer)
