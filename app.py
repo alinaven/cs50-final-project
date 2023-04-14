@@ -1,10 +1,20 @@
-from flask import Flask, render_template, g, current_app
+from flask import Flask, render_template, g, current_app, request, jsonify
 from helper import make_friendly, get_db, query_db, init_db
 import sqlite3
-
+import json
 
 
 app = Flask(__name__)
+
+@app.route('/api', methods=['GET'])
+def api():
+    plantid = request.args.get('plant-id')
+    print(plantid)
+    records = {'plant-id' : '123456', 'amount': '3', 'price' : '2'}, {'plant-id' : '654321', 'amount' : '4', 'price' : '5'}
+    for record in records:
+        if record['plant-id'] == plantid:
+            return jsonify(record)
+        return jsonify({'error': 'data not found'})
 
 @app.route("/")
 def index():
@@ -22,7 +32,7 @@ def customerpage(customer):
     
     return render_template("error.html", text="Customer not available")
 
-@app.route("/<customer>/querytester")
+@app.route("/<customer>/mapper")
 def querytester(customer):
     init_db()
     
