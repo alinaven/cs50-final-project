@@ -1,5 +1,5 @@
 from flask import Flask, render_template, g, current_app, request, jsonify
-from helper import make_friendly, get_db, query_db, init_db
+from helper import get_db, query_db, init_db
 import sqlite3
 import json
 
@@ -10,6 +10,7 @@ app = Flask(__name__)
 def api():
     plantid = request.args.get('plant-id')
     print(plantid)
+    
     records = {'plant-id' : '123456', 'amount': '3', 'price' : '2'}, {'plant-id' : '654321', 'amount' : '4', 'price' : '5'}
     for record in records:
         if record['plant-id'] == plantid:
@@ -28,7 +29,7 @@ def customerpage(customer):
     customers = query_db('select * from customers')
     for row in customers:
         if customer == row["suffix"]:
-            return render_template("customer.html", customerFriendly=make_friendly(customer), customer=customer)
+            return render_template("customer.html", customerFriendly=row["name"], customer=customer)
     
     return render_template("error.html", text="Customer not available")
 
@@ -39,7 +40,7 @@ def querytester(customer):
     customers = query_db('select * from customers')
     for row in customers:
         if customer == row["suffix"]:
-            return render_template("querytester.html", customerFriendly=make_friendly(customer), customer=customer) 
+            return render_template("querytester.html", customerFriendly = row["name"], customer=customer) 
     
     return render_template("error.html", text="Customer for querytester not available")
     

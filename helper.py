@@ -2,12 +2,6 @@ import string
 from flask import g, current_app
 import sqlite3
 
-def make_friendly(customer):
-    # Replace underscore with space
-    # Make first letter of each word uppercase
-    customerFriendly = string.capwords(customer.replace("_", " "))
-    return customerFriendly
-
 DATABASE = 'database.db'
 
 def get_db():
