@@ -6,8 +6,14 @@ import json
 
 app = Flask(__name__)
 
+
+@app.route("/")
+def index():
+    return render_template("index.html")
+
 @app.route('/api', methods=['GET', 'POST'])
 def api():
+    # retrieve plantid from form on customer page
     plantid = request.form['plant-id']
     
     print("plant-id =",plantid, type(plantid))
@@ -16,18 +22,13 @@ def api():
         data = f.read()
         print(data, type(data))
         records = json.loads(data)
+        #loop through plants in endpoint data
         for record in records:
-            print(records, type(records))
-            print(record, type(record))
-            print(record['plant-id'], type(record['plant-id']))
+            print(records, type(records),record, type(record), record['plant-id'], type(record['plant-id']))
             if record['plant-id'] == plantid:
                 print(plantid, type(plantid))
                 return jsonify(record)
         return jsonify({'error': 'data not found'})
-
-@app.route("/")
-def index():
-    return render_template("index.html")
 
 @app.route("/<customer>", methods=['GET'])
 def checkcustomer(customer):
