@@ -11,7 +11,7 @@
         Plantform.Prijs
       </div>
       <div class="col-8 field-form">
-        <form>
+        <form method="post">
           <div class="col-sm form-group">
             <label for="plantform-price-table">Tabel</label>
             <input type="text" class="form-control" id="plantform-price-table" placeholder="Table">
@@ -23,18 +23,17 @@
         </form>
       </div>
     </div>
-
     <div class="row" class="plantform-field plantform-name">
       <div class="col-4 field-name">
         Plantform.Name
       </div>
       <div class="col-8 field-form">
-        <form>
-          <div class="col-sm">
+        <form method="post">
+          <div class="col-sm form-group">
             <label for="plantform-name-table">Tabel</label>
             <input type="text" class="form-control" id="plantform-price-table" placeholder="Table">
           </div>
-          <div class="col-sm">
+          <div class="col-sm form-group">
             <label for="plantform-name-column">Column</label>
             <input type="text" class="form-control" id="plantform-name-column" placeholder="Column">
           </div>
@@ -46,7 +45,7 @@
         Plantform.Amount
       </div>
       <div class="col-8 field-form">
-        <form>
+        <form method="post">
           <div class="col-sm form-group">
             <label for="plantform-amount-table">Tabel</label>
             <input type="text" class="form-control" id="plantform-amount-table" placeholder="Table">
@@ -63,7 +62,7 @@
         Plantform.Picture
       </div>
       <div class="col-8 field-form">
-        <form>
+        <form method="post">
           <div class="col-sm form-group">
             <label for="plantform-picture-table">Tabel</label>
             <input type="text" class="form-control" id="plantform-picture-table" placeholder="Table">
@@ -78,14 +77,12 @@
   <hr>
     <div class="row" class="execute-section">
       <div class="col-sm">
-      <form>
+      <form action="/api" method="post">
         <div class="form-group plant-ID-input">
-          <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Fill in ID">
+          <input name="plant-id" type="text" class="form-control" id="plantid-input" placeholder="Fill in ID">
+          <button type="submit">Mapper</button>
         </div>
       </form>
-      </div>
-      <div class="col-sm">
-        <a role="button" class="btn btn-light" href="/{{customer}}/mapper">Mapper</a>
       </div>
       <div class="col-sm">
         <a role="button" class="btn btn-light">Save</a>
