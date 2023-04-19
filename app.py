@@ -9,12 +9,18 @@ app = Flask(__name__)
 @app.route('/api', methods=['GET'])
 def api():
     plantid = request.args.get('plant-id')
-    print(plantid)
+    print("plant-id =",plantid, type(plantid))
     
-    records = {'plant-id' : '123456', 'amount': '3', 'price' : '2'}, {'plant-id' : '654321', 'amount' : '4', 'price' : '5'}
-    for record in records:
-        if record['plant-id'] == plantid:
-            return jsonify(record)
+    with open('data.txt', 'r') as f:
+        data = f.read()
+        print(data, type(data))
+        records = json.loads(data)
+        for record in records:
+            print(records, type(records))
+            print(record, type(record))
+            print(record['plant-id'], type(record['plant-id']))
+            if record['plant-id'] == int(plantid):
+                return jsonify(record)
         return jsonify({'error': 'data not found'})
 
 @app.route("/")
