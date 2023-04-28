@@ -17,8 +17,11 @@ def api(customer):
     plantid = request.form['plant-id']
     
     print("plant-id =",plantid, type(plantid))
-    
-    with open('data.txt', 'r') as f:
+    try: 
+        open('data_' + customer + '.txt', 'r')
+    except:
+        return jsonify({'error': 'data source of this customer not found'})
+    with open('data_' + customer + '.txt', 'r') as f:
         data = f.read()
         print(data, type(data))
         records = json.loads(data)
@@ -34,11 +37,11 @@ def api(customer):
 def checkcustomer(customer):
     # Retrieve customer suffix's from database
     init_db()
-
+    customerApi = '/api/' + customer
     customers = query_db('select * from customers')
     for row in customers:
         if customer == row["suffix"]:
-            return render_template("customer.html", customerFriendly=row["name"], customer=customer)
+            return render_template("customer.html", customerFriendly=row["name"], customer=customer, customerApi=customerApi)
     
     return render_template("error.html", text="Customer not available")
 
