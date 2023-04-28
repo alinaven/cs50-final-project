@@ -11,8 +11,8 @@ app = Flask(__name__)
 def index():
     return render_template("index.html")
 
-@app.route('/api', methods=['GET', 'POST'])
-def api():
+@app.route('/api/<customer>', methods=['GET', 'POST'])
+def api(customer):
     # retrieve plantid from form on customer page
     plantid = request.form['plant-id']
     
