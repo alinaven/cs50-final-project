@@ -1,0 +1,2 @@
+[{"plant-id": "123456", "amount": 6, "price": 1}, 
+{"plant-id": "654321", "amount": 8, "price": 6}]
