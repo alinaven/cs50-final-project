@@ -1,2 +1,32 @@
-[{"plant-id": "123456", "amount": 3, "price": 2}, 
-{"plant-id": "654321", "amount": 4, "price": 5}]
+[
+    {
+        "plant-id": "123456", 
+        "information": {
+            "price": 2,
+            "picture": "test"
+        },
+        "description": {
+            "title": "Pannekoekenplant",
+            "category": "Kamerplant"
+        },
+        "data": {
+            "online-stock": 5,
+            "total-stock": 10
+        }
+    },
+    {
+        "plant-id": "654321", 
+        "information": {
+            "price": 5,
+            "picture": "test"
+        },
+        "description": {
+            "title": "Hortensia",
+            "category": "Kamerplant"
+        },
+        "data": {
+            "online-stock": 2,
+            "total-stock": 5
+        }
+    }
+]

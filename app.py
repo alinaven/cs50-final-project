@@ -16,18 +16,15 @@ def api(customer):
     # retrieve plantid from form on customer page
     plantid = request.form['plant-id']
     
-    print("plant-id =",plantid, type(plantid))
     try: 
         open('data_' + customer + '.txt', 'r')
     except:
         return jsonify({'error': 'data source of this customer not found'})
     with open('data_' + customer + '.txt', 'r') as f:
         data = f.read()
-        print(data, type(data))
         records = json.loads(data)
         #loop through plants in endpoint data
         for record in records:
-            print(records, type(records),record, type(record), record['plant-id'], type(record['plant-id']))
             if record['plant-id'] == plantid:
                 print(plantid, type(plantid))
                 return jsonify(record)
