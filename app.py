@@ -32,23 +32,27 @@ def api(customer):
         #check if input is empty
         #add error
         if request.method == 'POST':
-            plantformPrice = request.form['plantform-price-table']+request.form['plantform-price-column']
-            plantformName = request.form['plantform-name-table']+request.form['plantform-name-column']
-            plantformAmount = request.form['plantform-amount-table']+request.form['plantform-amount-column']
-            plantformPicture = request.form['plantform-picture-table']+request.form['plantform-picture-column']
-        if not plantformPrice:
-            flash('Field for price is required!')
-        elif not plantformName:
-            flash('Field for name is required!')
-        elif not plantformAmount:
-            flash('Field for Amount is required!')
-        elif not plantformPicture:
-            flash('Field for Picture is required!')
+            plantformPriceTable = request.form['plantform-price-table']
+            plantformPriceColumn = request.form['plantform-price-column']
+            plantformNameTable = request.form['plantform-name-table']
+            plantformNameColumn = request.form['plantform-name-column']
+            plantformAmountTable = request.form['plantform-amount-table']
+            plantformAmountColumn = request.form['plantform-amount-column']
+            plantformPictureTable = request.form['plantform-picture-table']
+            plantformPictureColumn = request.form['plantform-picture-column']
+        if not plantformPriceColumn and plantformPriceTable:
+            flash('Both fields for price are required!')
+        elif not plantformNameColumn and plantformNameTable:
+            flash('Both fields for name are required!')
+        elif not plantformAmountColumn and plantformAmountTable:
+            flash('Both fields for amount are required!')
+        elif not plantformPictureColumn and plantformPictureTable:
+            flash('Both fields for picture are required!')
         #if all fields are filled
         else:
-            return redirect("/mapper.html")
+            return redirect("<customer>/mapper.html")
 
-        return render_template("customer.html")
+        #return render_template("customer.html")
 
 @app.route("/<customer>", methods=['GET'])
 def checkcustomer(customer):
