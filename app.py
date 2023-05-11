@@ -5,7 +5,7 @@ import json
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'df2398459834fc6c2b9a5werd0208agk5d1c0fd37324febfgdd5506'
+#app.config['SECRET_KEY'] = 'df2398459834fc6c2b9a5werd0208agk5d1c0fd37324febfgdd5506'
 
 @app.route("/")
 def index():
@@ -27,34 +27,35 @@ def api(customer):
         for record in records:
             if record['plant-id'] == plantid:
                 print(plantid, type(plantid))
-                record = jsonify(record)
-        #return jsonify({'error': 'data not found'})
+                return jsonify(record)
+                #return redirect("/"+customer+"/mapper")
+        return jsonify({'error': 'data not found'})
+        
         #check if input is empty
         #add error
-        if request.method == 'POST':
-            plantformPriceTable = request.form['plantform-price-table']
-            plantformPriceColumn = request.form['plantform-price-column']
-            plantformNameTable = request.form['plantform-name-table']
-            plantformNameColumn = request.form['plantform-name-column']
-            plantformAmountTable = request.form['plantform-amount-table']
-            plantformAmountColumn = request.form['plantform-amount-column']
-            plantformPictureTable = request.form['plantform-picture-table']
-            plantformPictureColumn = request.form['plantform-picture-column']
-        if not plantformPriceColumn and plantformPriceTable:
-            flash('Both fields for price are required!')
-        elif not plantformNameColumn and plantformNameTable:
-            flash('Both fields for name are required!')
-        elif not plantformAmountColumn and plantformAmountTable:
-            flash('Both fields for amount are required!')
-        elif not plantformPictureColumn and plantformPictureTable:
-            flash('Both fields for picture are required!')
+        #if request.method == 'POST':
+            #plantformPriceTable = request.form['plantform-price-table']
+            #plantformPriceColumn = request.form['plantform-price-column']
+            #plantformNameTable = request.form['plantform-name-table']
+            #plantformNameColumn = request.form['plantform-name-column']
+            #plantformAmountTable = request.form['plantform-amount-table']
+            #plantformAmountColumn = request.form['plantform-amount-column']
+            #plantformPictureTable = request.form['plantform-picture-table']
+            #plantformPictureColumn = request.form['plantform-picture-column']
+        #if not plantformPriceColumn and plantformPriceTable:
+            #flash('Both fields for price are required!')
+        #elif not plantformNameColumn and plantformNameTable:
+            #flash('Both fields for name are required!')
+        #elif not plantformAmountColumn and plantformAmountTable:
+            #flash('Both fields for amount are required!')
+        #elif not plantformPictureColumn and plantformPictureTable:
+            #flash('Both fields for picture are required!')
         #if all fields are filled
-        else:
-            return redirect("<customer>/mapper.html")
+        #else:
+            #return redirect("<customer>/mapper.html")
 
-        #return render_template("customer.html")
-
-@app.route("/<customer>", methods=['GET'])
+        
+@app.route("/<customer>", methods=['GET', 'POST'])
 def checkcustomer(customer):
     # Retrieve customer suffix's from database
     init_db()

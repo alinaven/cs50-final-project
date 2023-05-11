@@ -1,44 +1,40 @@
 {% extends "layout.html" %}
   {% block body %}
-  <div class="container customer-page">
-    <div class="row">
-      <div class="col-sm">
-        <h1>{{customerFriendly}}</h1>
-      </div>
+<div class="container customer-page">
+  <div class="row">
+    <div class="col-sm">
+      <h1>{{customerFriendly}}</h1>
     </div>
-    <form action={{customerApi}} method="post">
+  </div>
+  <form action={{customerApi}} method="post">
     <div class="row" class="plantform-field plantform-price">
       <div class="col-4 field-name">
         Plantform.Prijs
       </div>
       <div class="col-8 field-form">
-        <form method="post">
-          <div class="col-sm form-group">
-            <label for="plantform-price-table">Tabel</label>
-            <input type="text" class="form-control" id="plantform-price-table" placeholder="Table">
-          </div>
-          <div class="col-sm form-group">
+        <div class="col-sm form-group">
+          <label for="plantform-price-table">Tabel</label>
+          <input type="text" class="form-control" id="plantform-price-table" placeholder="Table">
+        </div>
+        <div class="col-sm form-group">
             <label for="plantform-price-table">Column</label>
             <input type="text" class="form-control" id="plantform-price-column" placeholder="Column">
           </div>
-        </form>
+        </div>
       </div>
-    </div>
-    <div class="row" class="plantform-field plantform-name">
-      <div class="col-4 field-name">
-        Plantform.Name
-      </div>
+      <div class="row" class="plantform-field plantform-name">
+        <div class="col-4 field-name">
+          Plantform.Name
+        </div>
       <div class="col-8 field-form">
-        <form method="post">
-          <div class="col-sm form-group">
-            <label for="plantform-name-table">Tabel</label>
-            <input type="text" class="form-control" id="plantform-price-table" placeholder="Table">
-          </div>
-          <div class="col-sm form-group">
-            <label for="plantform-name-column">Column</label>
-            <input type="text" class="form-control" id="plantform-name-column" placeholder="Column">
-          </div>
-        </form>
+        <div class="col-sm form-group">
+          <label for="plantform-name-table">Tabel</label>
+          <input type="text" class="form-control" id="plantform-price-table" placeholder="Table">
+        </div>
+        <div class="col-sm form-group">
+          <label for="plantform-name-column">Column</label>
+          <input type="text" class="form-control" id="plantform-name-column" placeholder="Column">
+        </div>
       </div>
     </div>
     <div class="row" class="plantform-field plantform-amount">
@@ -46,16 +42,14 @@
         Plantform.Amount
       </div>
       <div class="col-8 field-form">
-        <form method="post">
-          <div class="col-sm form-group">
-            <label for="plantform-amount-table">Tabel</label>
-            <input type="text" class="form-control" id="plantform-amount-table" placeholder="Table">
-          </div>
-          <div class="col-sm form-group">
-            <label for="plantform-amount-table">Column</label>
-            <input type="text" class="form-control" id="plantform-amount-column" placeholder="Column">
-          </div>
-        </form>
+        <div class="col-sm form-group">
+          <label for="plantform-amount-table">Tabel</label>
+          <input type="text" class="form-control" id="plantform-amount-table" placeholder="Table">
+        </div>
+        <div class="col-sm form-group">
+          <label for="plantform-amount-table">Column</label>
+          <input type="text" class="form-control" id="plantform-amount-column" placeholder="Column">
+        </div>
       </div>
     </div>
     <div class="row" class="plantform-field plantform-picture">
@@ -63,16 +57,14 @@
         Plantform.Picture
       </div>
       <div class="col-8 field-form">
-        <form method="post">
-          <div class="col-sm form-group">
-            <label for="plantform-picture-table">Tabel</label>
-            <input type="text" class="form-control" id="plantform-picture-table" placeholder="Table">
-          </div>
-          <div class="col-sm form-group">
-            <label for="plantform-picture-table">Column</label>
-            <input type="text" class="form-control" id="plantform-picture-column" placeholder="Column">
-          </div>
-        </form>
+        <div class="col-sm form-group">
+          <label for="plantform-picture-table">Tabel</label>
+          <input type="text" class="form-control" id="plantform-picture-table" placeholder="Table">
+        </div>
+        <div class="col-sm form-group">
+          <label for="plantform-picture-table">Column</label>
+          <input type="text" class="form-control" id="plantform-picture-column" placeholder="Column">
+        </div>
       </div>
     </div>
   <hr>
@@ -82,11 +74,11 @@
           <input name="plant-id" type="text" class="form-control" id="plantid-input" placeholder="Fill in ID">
           <button type="submit">Mapper</button>
         </div>
-      </form>
       </div>
       <div class="col-sm">
         <a role="button" class="btn btn-light">Save</a>
       </div>
     </div>
-  </div>
+  </form>
+</div>
   {% endblock %}
