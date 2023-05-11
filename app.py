@@ -13,35 +13,19 @@ def index():
 
 @app.route('/api/<customer>', methods=['GET', 'POST'])
 def api(customer):
-    # retrieve plantid from form on customer page
+    # retrieve data from form on customer page
     plantid = request.form['plant-id']
-    
-    try: 
-        open('data_' + customer + '.txt', 'r')
-    except:
-        return jsonify({'error': 'data source of this customer not found'})
-    with open('data_' + customer + '.txt', 'r') as f:
-        data = f.read()
-        records = json.loads(data)
-        #loop through plants in endpoint data
-        for record in records:
-            if record['plant-id'] == plantid:
-                print(plantid, type(plantid))
-                return jsonify(record)
-                #return redirect("/"+customer+"/mapper")
-        return jsonify({'error': 'data not found'})
-        
+    plantformPriceTable = request.form['plantform-price-table']
+    plantformPriceColumn = request.form['plantform-price-column']
+    plantformNameTable = request.form['plantform-name-table']
+    plantformNameColumn = request.form['plantform-name-column']
+    plantformAmountTable = request.form['plantform-amount-table']
+    plantformAmountColumn = request.form['plantform-amount-column']
+    plantformPictureTable = request.form['plantform-picture-table']
+    plantformPictureColumn = request.form['plantform-picture-column']
+            
         #check if input is empty
         #add error
-        #if request.method == 'POST':
-            #plantformPriceTable = request.form['plantform-price-table']
-            #plantformPriceColumn = request.form['plantform-price-column']
-            #plantformNameTable = request.form['plantform-name-table']
-            #plantformNameColumn = request.form['plantform-name-column']
-            #plantformAmountTable = request.form['plantform-amount-table']
-            #plantformAmountColumn = request.form['plantform-amount-column']
-            #plantformPictureTable = request.form['plantform-picture-table']
-            #plantformPictureColumn = request.form['plantform-picture-column']
         #if not plantformPriceColumn and plantformPriceTable:
             #flash('Both fields for price are required!')
         #elif not plantformNameColumn and plantformNameTable:
@@ -52,7 +36,27 @@ def api(customer):
             #flash('Both fields for picture are required!')
         #if all fields are filled
         #else:
-            #return redirect("<customer>/mapper.html")
+
+    try: 
+        open('data_' + customer + '.txt', 'r')
+    except:
+        return jsonify({'error': 'data source of this customer not found'})
+    with open('data_' + customer + '.txt', 'r') as f:
+        data = f.read()
+        records = json.loads(data)
+        print("Records:", records, type(records))
+        #loop through plants in endpoint data
+        for record in records:
+            if record['plant-id'] == plantid:
+                print(plantid, type(plantid))
+                # LOGIC TO SELECT RIGHT API OUTPUT AS VARIABLES
+                print(plantformPriceTable)
+                price = record[plantformPriceTable][plantformPriceColumn]
+                name = record[plantformNameTable][plantformNameColumn]
+                picture = record[plantformPictureTable][plantformPictureColumn]
+                amount = record[plantformAmountTable][plantformAmountColumn]
+                return render_template("mapper.html", plantid=plantid, price=price, name=name, picture=picture, amount=amount, customer=customer)
+        return jsonify({'error': 'data not found'})
 
         
 @app.route("/<customer>", methods=['GET', 'POST'])
@@ -68,16 +72,17 @@ def checkcustomer(customer):
     return render_template("error.html", text="Customer not available")
 
 
-@app.route("/<customer>/mapper")
-def mapper(customer):
-    init_db()
-    
-    customers = query_db('select * from customers')
-    for row in customers:
-        if customer == row["suffix"]:
-            return render_template("mapper.html", customerFriendly = row["name"], customer=customer) 
-    
-    return render_template("error.html", text="Customer for querytester not available")
+#@app.route("/<customer>/mapper")
+#def mapper(customer,plantid):
+#    init_db()
+#    
+#    customers = query_db('select * from customers')
+#    for row in customers:
+#        if customer == row["suffix"]:
+#            print(customer, plantid)
+#            return render_template("mapper.html", customerFriendly = row["name"], customer=customer) 
+#    
+#    return render_template("error.html", text="Customer for querytester not available")
     
 
 @app.teardown_appcontext
