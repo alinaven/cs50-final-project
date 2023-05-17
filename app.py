@@ -11,8 +11,9 @@ app = Flask(__name__)
 def index():
     return render_template("index.html")
 
-@app.route('/api/<customer>', methods=['GET', 'POST'])
-def api(customer):
+@app.route('/api/<customerApi>', methods=['GET', 'POST'])
+def api(customerApi):
+    #TODO: werkt nog niet, want customerApi variabele in customer.html is nu zonder /api/.... waardoor hij de customer.html opnieuw laadt. Voeg api/.... toe aan customer.html form
     # retrieve data from form on customer page
     plantid = request.form['plant-id']
     plantformPriceTable = request.form['plantform-price-table']
@@ -37,36 +38,47 @@ def api(customer):
         #if all fields are filled
         #else:
 
-    try: 
-        open('data_' + customer + '.txt', 'r')
-    except:
-        return jsonify({'error': 'data source of this customer not found'})
-    with open('data_' + customer + '.txt', 'r') as f:
-        data = f.read()
-        records = json.loads(data)
-        print("Records:", records, type(records))
-        #loop through plants in endpoint data
-        for record in records:
-            if record['plant-id'] == plantid:
-                print(plantid, type(plantid))
-                # LOGIC TO SELECT RIGHT API OUTPUT AS VARIABLES
-                print(plantformPriceTable)
-                price = record[plantformPriceTable][plantformPriceColumn]
-                name = record[plantformNameTable][plantformNameColumn]
-                picture = record[plantformPictureTable][plantformPictureColumn]
-                amount = record[plantformAmountTable][plantformAmountColumn]
-                return render_template("mapper.html", plantid=plantid, price=price, name=name, picture=picture, amount=amount, customer=customer)
-        return jsonify({'error': 'data not found'})
+    # Get data source for customer
+    init_db()
+    customers = query_db('select * from customers')
+    for row in customers:
+        print('database entry: ' + row["url"])
+        print('given by website: ' + customerApi)
+        if customerApi == row["url"]:
+            source = row["source"]
+            customer = row["suffix"]
+            print(source)
+            try:
+                open(source, 'r')
+            except:
+                return jsonify({'error': 'data source of this customer not available'})
+            with open(source, 'r') as f:
+                data = f.read()
+                records = json.loads(data)
+                print("Records:", records, type(records))
+                #loop through plants in endpoint data
+                for record in records:
+                    if record['plant-id'] == plantid:
+                        # TO DO: hij stopt hier niet!
+                        print(plantid, type(plantid))
+                        # LOGIC TO SELECT RIGHT API OUTPUT AS VARIABLES
+                        print(plantformPriceTable)
+                        price = record[plantformPriceTable][plantformPriceColumn]
+                        name = record[plantformNameTable][plantformNameColumn]
+                        picture = record[plantformPictureTable][plantformPictureColumn]
+                        amount = record[plantformAmountTable][plantformAmountColumn]
+                        return render_template("mapper.html", plantid=plantid, price=price, name=name, picture=picture, amount=amount, customer=customer)
+    return jsonify({'error': 'no customer exist with this api'})
 
         
 @app.route("/<customer>", methods=['GET', 'POST'])
 def checkcustomer(customer):
     # Retrieve customer suffix's from database
     init_db()
-    customerApi = '/api/' + customer
     customers = query_db('select * from customers')
     for row in customers:
         if customer == row["suffix"]:
+            customerApi = row["url"]
             return render_template("customer.html", customerFriendly=row["name"], customer=customer, customerApi=customerApi)
     
     return render_template("error.html", text="Customer not available")
