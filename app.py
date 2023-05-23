@@ -34,6 +34,14 @@ def api(customerApi):
         if customerApi == row["url"]:
             source = row["source"]
             customer = row["suffix"]
+            conn = sqlite3.connect('database.db')
+            data = [plantformPriceTable, plantformPriceColumn]
+            conn.execute("UPDATE customers SET pricetable = ? WHERE suffix = ?", (plantformPriceTable, customer))
+            conn.commit()
+
+            result = conn.execute("SELECT pricetable FROM customers WHERE suffix = ?", (customer,)).fetchall()
+            print(result)
+            
             print(source)
             try:
                 open(source, 'r')
