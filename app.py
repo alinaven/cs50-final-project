@@ -25,19 +25,6 @@ def api(customerApi):
     plantformPictureTable = request.form['plantform-picture-table']
     plantformPictureColumn = request.form['plantform-picture-column']
             
-        #check if input is empty
-        #add error
-        #if not plantformPriceColumn and plantformPriceTable:
-            #flash('Both fields for price are required!')
-        #elif not plantformNameColumn and plantformNameTable:
-            #flash('Both fields for name are required!')
-        #elif not plantformAmountColumn and plantformAmountTable:
-            #flash('Both fields for amount are required!')
-        #elif not plantformPictureColumn and plantformPictureTable:
-            #flash('Both fields for picture are required!')
-        #if all fields are filled
-        #else:
-
     # Get data source for customer
     init_db()
     customers = query_db('select * from customers')
@@ -62,11 +49,26 @@ def api(customerApi):
                         # TO DO: hij stopt hier niet!
                         print(plantid, type(plantid))
                         # LOGIC TO SELECT RIGHT API OUTPUT AS VARIABLES
-                        print(plantformPriceTable)
-                        price = record[plantformPriceTable][plantformPriceColumn]
-                        name = record[plantformNameTable][plantformNameColumn]
-                        picture = record[plantformPictureTable][plantformPictureColumn]
-                        amount = record[plantformAmountTable][plantformAmountColumn]
+                        try: 
+                            price = record[plantformPriceTable][plantformPriceColumn]
+                        except: 
+                            price = "Not available"
+
+                        try:
+                            name = record[plantformNameTable][plantformNameColumn]
+                        except:
+                            name = "Not available"
+                        
+                        try:
+                            picture = record[plantformPictureTable][plantformPictureColumn]
+                        except:
+                            picture = "Not available"
+
+                        try: 
+                            amount = record[plantformAmountTable][plantformAmountColumn]
+                        except:
+                            amount = "Not available"
+
                         return render_template("mapper.html", plantid=plantid, price=price, name=name, picture=picture, amount=amount, customer=customer)
     return jsonify({'error': 'no customer exist with this api'})
 
