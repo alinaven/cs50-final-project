@@ -5,7 +5,6 @@ import json
 
 
 app = Flask(__name__)
-#app.config['SECRET_KEY'] = 'df2398459834fc6c2b9a5werd0208agk5d1c0fd37324febfgdd5506'
 
 @app.route("/")
 def index():
@@ -61,23 +60,21 @@ def api(customerApi):
                             price = record[plantformPriceTable][plantformPriceColumn]
                         except: 
                             price = "Not available"
-
                         try:
                             name = record[plantformNameTable][plantformNameColumn]
                         except:
                             name = "Not available"
-                        
                         try:
                             picture = record[plantformPictureTable][plantformPictureColumn]
                         except:
                             picture = "Not available"
-
                         try: 
                             amount = record[plantformAmountTable][plantformAmountColumn]
                         except:
                             amount = "Not available"
-
                         return render_template("mapper.html", plantid=plantid, price=price, name=name, picture=picture, amount=amount, customer=customer)
+                else:  
+                    return jsonify({'error': 'Plant-id not found'})
     return jsonify({'error': 'no customer exist with this api'})
 
         
