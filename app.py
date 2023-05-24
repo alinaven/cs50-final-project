@@ -25,7 +25,7 @@ def api(customerApi):
     plantformPictureColumn = request.form['plantform-picture-column']
             
     # Get data source for customer
-    init_db()
+    #init_db()
     customers = query_db('select * from customers')
     for row in customers:
         print('database entry: ' + row["url"])
@@ -34,14 +34,13 @@ def api(customerApi):
             source = row["source"]
             customer = row["suffix"]
             conn = sqlite3.connect('database.db')
-            data = [plantformPriceTable, plantformPriceColumn]
             conn.execute("UPDATE customers SET pricetable = ? WHERE suffix = ?", (plantformPriceTable, customer))
-            conn.commit()
-
+            conn.execute("UPDATE customers SET pricefield = ? WHERE suffix = ?", (plantformPriceColumn, customer))
             result = conn.execute("SELECT pricetable FROM customers WHERE suffix = ?", (customer,)).fetchall()
-            print(result)
-            
-            print(source)
+            conn.commit()
+            print("Result: ", result)
+            print("Source: ", source)
+            print(row["pricetable"])
             try:
                 open(source, 'r')
             except:
@@ -72,7 +71,7 @@ def api(customerApi):
                             amount = record[plantformAmountTable][plantformAmountColumn]
                         except:
                             amount = "Not available"
-                        return render_template("mapper.html", plantid=plantid, price=price, name=name, picture=picture, amount=amount, customer=customer)
+                        return render_template("mapper.html", plantid=plantid, name=name, price=price, picture=picture, amount=amount, customer=customer, customerFriendly=row["name"])
                 else:  
                     return jsonify({'error': 'Plant-id not found'})
     return jsonify({'error': 'no customer exist with this api'})
@@ -81,28 +80,14 @@ def api(customerApi):
 @app.route("/<customer>", methods=['GET', 'POST'])
 def checkcustomer(customer):
     # Retrieve customer suffix's from database
-    init_db()
+    #init_db()
     customers = query_db('select * from customers')
     for row in customers:
         if customer == row["suffix"]:
-            customerApi = row["url"]
-            return render_template("customer.html", customerFriendly=row["name"], customer=customer, customerApi=customerApi)
+            print (customer)
+            return render_template("customer.html", customerFriendly=row["name"], customer=customer, customerApi=row["url"], pricetable=row["pricetable"], pricefield=row["pricefield"])
     
-    return render_template("error.html", text="Customer not available")
-
-
-#@app.route("/<customer>/mapper")
-#def mapper(customer,plantid):
-#    init_db()
-#    
-#    customers = query_db('select * from customers')
-#    for row in customers:
-#        if customer == row["suffix"]:
-#            print(customer, plantid)
-#            return render_template("mapper.html", customerFriendly = row["name"], customer=customer) 
-#    
-#    return render_template("error.html", text="Customer for querytester not available")
-    
+    return render_template("error.html", text="Customer not available")   
 
 @app.teardown_appcontext
 def close_connection(exception):

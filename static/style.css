@@ -49,3 +49,13 @@ h2 {
     margin: 0px;
     padding: 0px;
 }
+
+.mapper {
+    margin: 20px;
+    padding: 10px;
+}
+
+.mapper h1, .mapper h2 {
+    margin-bottom: 20px;
+}
+
