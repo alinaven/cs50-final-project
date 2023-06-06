@@ -48,7 +48,7 @@ def api(customerApi):
             try:
                 open(source, 'r')
             except:
-                return jsonify({'error': 'data source of this customer not available'})
+                return render_template("error.html", text="Data source of this customer is not available")
             with open(source, 'r') as f:
                 data = f.read()
                 records = json.loads(data)
@@ -77,21 +77,33 @@ def api(customerApi):
                             picture = "Not available"
                         return render_template("mapper.html", plantid=plantid, name=name, price=price, picture=picture, amount=amount, customer=customer, customerFriendly=row["name"])
                 else:  
-                    return jsonify({'error': 'Plant-id not found'})
-    return jsonify({'error': 'no customer exist with this api'})
+                    return render_template("error.html", text="Plant-id not found")
+        return render_template("error.html", text="This API cannot be found")   
 
-        
 @app.route("/<customer>", methods=['GET', 'POST'])
 def checkcustomer(customer):
-    # Retrieve customer suffix's from database
-    #init_db()
-    customers = query_db('select * from customers')
-    for row in customers:
-        if customer == row["suffix"]:
-            print (customer)
-            return render_template("customer.html", customerFriendly=row["name"], customer=customer, customerApi=row["url"], pricetable=row["pricetable"], pricefield=row["pricefield"], nametable=row["nametable"], namefield=row["namefield"], amounttable=row["amounttable"], amountfield=row["amountfield"], picturetable=row["picturetable"], picturefield=row["picturefield"])
-    
-    return render_template("error.html", text="Customer not available")   
+    if request.method == 'GET':
+        # Retrieve customer suffix's from database
+        #init_db()
+        customers = query_db('select * from customers')
+        print("get-request")
+        for row in customers:
+            if customer == row["suffix"]:
+                print (customer)
+                return render_template("customer.html", customerFriendly=row["name"], customer=customer, customerApi=row["url"], pricetable=row["pricetable"], pricefield=row["pricefield"], nametable=row["nametable"], namefield=row["namefield"], amounttable=row["amounttable"], amountfield=row["amountfield"], picturetable=row["picturetable"], picturefield=row["picturefield"])
+        
+        return render_template("error.html", text="Customer not available")
+    else:
+        apiURL = request.form['api-url']
+        print("post-request")
+        customers = query_db('select * from customers')
+        conn = sqlite3.connect('database.db')
+        conn.execute("UPDATE customers SET url = ? WHERE suffix = ?", (apiURL, customer))
+        for row in customers:
+            if customer == row["suffix"]:
+                print (customer)
+                return render_template("customer.html", customerFriendly=row["name"], customer=customer, customerApi=row["url"], pricetable=row["pricetable"], pricefield=row["pricefield"], nametable=row["nametable"], namefield=row["namefield"], amounttable=row["amounttable"], amountfield=row["amountfield"], picturetable=row["picturetable"], picturefield=row["picturefield"])
+        
 
 @app.teardown_appcontext
 def close_connection(exception):
