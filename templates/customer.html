@@ -6,6 +6,20 @@
       <h1>{{customerFriendly}}</h1>
     </div>
   </div>
+  <form action="{{customer}}" method="post">
+    <div class="row" class="api-url-field">
+      <div class="col-3 field-name">
+        Change API URL
+      </div>
+      <div class="col-5 form-group">
+        <input name="api-url-field" type="text" class="form-control" id="api-url-field">
+      </div>
+      <div class="col-2 mapper-button">
+        <button class="btn btn-light btn-outline-dark"" type="submit">Save</button>
+      </div>
+    </div>
+  </form>
+<hr>
   <form action="api/{{customerApi}}" method="post">
     <div class="row" class="field price">
       <div class="col-3 field-name">
@@ -16,7 +30,7 @@
           <input name="price-table" type="text" class="form-control" id="price-table" placeholder="{{pricetable}}" value="{{pricetable}}">
         </div>
         <div class="col-sm form-group">
-            <input name="price-field" type="text" class="form-control" id="price-field" placeholder="{{pricefield}}" value="{{pricefield}}">
+          <input name="price-field" type="text" class="form-control" id="price-field" placeholder="{{pricefield}}" value="{{pricefield}}">
           </div>
         </div>
       </div>
@@ -68,7 +82,7 @@
       </div>
       <div class="col-3">
         <div class="mapper-button">
-          <button class="btn btn-light btn-outline-dark"" type="submit">Mapper</button>
+          <button class="btn btn-light btn-outline-dark" type="submit">Save & test mapping</button>
         </div>
       </div>
     </div>

@@ -12,7 +12,6 @@ def index():
 
 @app.route('/api/<customerApi>', methods=['GET', 'POST'])
 def api(customerApi):
-    #TODO: werkt nog niet, want customerApi variabele in customer.html is nu zonder /api/.... waardoor hij de customer.html opnieuw laadt. Voeg api/.... toe aan customer.html form
     # retrieve data from form on customer page
     plantid = request.form['plant-id']
     PriceTable = request.form['price-table']
