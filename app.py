@@ -36,7 +36,13 @@ def api(customerApi):
             conn = sqlite3.connect('database.db')
             conn.execute("UPDATE customers SET pricetable = ? WHERE suffix = ?", (plantformPriceTable, customer))
             conn.execute("UPDATE customers SET pricefield = ? WHERE suffix = ?", (plantformPriceColumn, customer))
-            result = conn.execute("SELECT pricetable FROM customers WHERE suffix = ?", (customer,)).fetchall()
+            conn.execute("UPDATE customers SET nametable = ? WHERE suffix = ?", (plantformNameTable, customer))
+            conn.execute("UPDATE customers SET namefield = ? WHERE suffix = ?", (plantformNameColumn, customer))
+            conn.execute("UPDATE customers SET amounttable = ? WHERE suffix = ?", (plantformAmountTable, customer))
+            conn.execute("UPDATE customers SET amountfield = ? WHERE suffix = ?", (plantformAmountColumn, customer))
+            conn.execute("UPDATE customers SET picturetable = ? WHERE suffix = ?", (plantformPictureTable, customer))
+            conn.execute("UPDATE customers SET picturefield = ? WHERE suffix = ?", (plantformPictureColumn, customer))
+            result = conn.execute("SELECT amountfield FROM customers WHERE suffix = ?", (customer,)).fetchall()
             conn.commit()
             print("Result: ", result)
             print("Source: ", source)
@@ -81,13 +87,17 @@ def api(customerApi):
 def checkcustomer(customer):
     # Retrieve customer suffix's from database
     #init_db()
-    customers = query_db('select * from customers')
-    for row in customers:
-        if customer == row["suffix"]:
-            print (customer)
-            return render_template("customer.html", customerFriendly=row["name"], customer=customer, customerApi=row["url"], pricetable=row["pricetable"], pricefield=row["pricefield"])
-    
-    return render_template("error.html", text="Customer not available")   
+    if request.method == 'POST':
+        #TO DO: add logic to save API URL in database
+        return render_template("customer.html", customerFriendly=row["name"], customer=customer, customerApi=row["url"], pricetable=row["pricetable"], pricefield=row["pricefield"])
+    else:        
+        customers = query_db('select * from customers')
+        for row in customers:
+            if customer == row["suffix"]:
+                print (customer)
+                return render_template("customer.html", customerFriendly=row["name"], customer=customer, customerApi=row["url"], pricetable=row["pricetable"], pricefield=row["pricefield"])
+        
+        return render_template("error.html", text="Customer not available")   
 
 @app.teardown_appcontext
 def close_connection(exception):

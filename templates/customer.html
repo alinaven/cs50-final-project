@@ -6,6 +6,23 @@
       <h1>{{customerFriendly}}</h1>
     </div>
   </div>
+
+  <form action="{{customer}}" method="post">
+    <div class="row" class="plantform-field plantform-price">
+      <div class="col-3 field-name">
+        API URL
+      </div>
+      <div class="col-sm form-group">
+        <input name="plantform-price-table" type="text" class="form-control" id="plantform-price-table">
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="mapper-button">
+        <button class="btn btn-light btn-outline-dark"" type="submit">Save</button>
+      </div>
+    </div>
+  </form>
+
   <form action="api/{{customerApi}}" method="post">
     <div class="row" class="plantform-field plantform-price">
       <div class="col-3 field-name">
