@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, g, current_app, request, jsonify, url_for, flash
+from flask import Flask, render_template, g, request
 from helper import get_db, query_db, init_db
 import sqlite3
 import json
@@ -78,7 +78,7 @@ def api(customerApi):
                         return render_template("mapper.html", plantid=plantid, name=name, price=price, picture=picture, amount=amount, customer=customer, customerFriendly=row["name"])
                 else:  
                     return render_template("error.html", text="Plant-id not found")
-        return render_template("error.html", text="This API cannot be found")   
+    return render_template("error.html", text="This API cannot be found")   
 
 @app.route("/<customer>", methods=['GET', 'POST'])
 def checkcustomer(customer):
@@ -93,20 +93,23 @@ def checkcustomer(customer):
                 return render_template("customer.html", customerFriendly=row["name"], customer=customer, customerApi=row["apiurl"], urlConfig=row["urlconfig"], pricetable=row["pricetable"], pricefield=row["pricefield"], nametable=row["nametable"], namefield=row["namefield"], amounttable=row["amounttable"], amountfield=row["amountfield"], picturetable=row["picturetable"], picturefield=row["picturefield"])
         
         return render_template("error.html", text="Customer not available")
+    
     else:
         urlConfig = request.form['url-config']
         print("post-request")
-        print("urlConfig:", urlConfig)
+
         customers = query_db('select * from customers')
         conn = sqlite3.connect('database.db')
         conn.execute("UPDATE customers SET urlconfig = ? WHERE suffix = ?", (urlConfig, customer))
         conn.commit()
+        customers = query_db('select * from customers')
         for row in customers:
             if customer == row["suffix"]:
-                print("config: 1", urlConfig, "2:", row["urlconfig"], "apiurl:", row["apiurl"])
+                print(row["suffix"])
+                print("first: urlConfig", urlConfig, "urlconfig:", row["urlconfig"], "apiurl:", row["apiurl"])
                 if row["urlconfig"] == row["apiurl"]:
                     print (customer)
-                    return render_template("customer.html", customerFriendly=row["name"], customer=customer, customerApi=row["apiurl"], pricetable=row["pricetable"], pricefield=row["pricefield"], nametable=row["nametable"], namefield=row["namefield"], amounttable=row["amounttable"], amountfield=row["amountfield"], picturetable=row["picturetable"], picturefield=row["picturefield"])
+                    return render_template("customer.html", customerFriendly=row["name"], customer=customer, urlConfig=row["urlconfig"], customerApi=row["apiurl"], pricetable=row["pricetable"], pricefield=row["pricefield"], nametable=row["nametable"], namefield=row["namefield"], amounttable=row["amounttable"], amountfield=row["amountfield"], picturetable=row["picturetable"], picturefield=row["picturefield"])
                 else:
                     return render_template("error.html", text="Api endpoint not available")
 
