@@ -26,9 +26,9 @@ def api(customerApi):
     #init_db()
     customers = query_db('select * from customers')
     for row in customers:
-        print('database entry: ' + row["url"])
+        print('database entry: ' + row["apiurl"])
         print('given by website: ' + customerApi)
-        if customerApi == row["url"]:
+        if customerApi == row["urlconfig"]:
             source = row["source"]
             customer = row["suffix"]
             conn = sqlite3.connect('database.db')
@@ -83,27 +83,32 @@ def api(customerApi):
 @app.route("/<customer>", methods=['GET', 'POST'])
 def checkcustomer(customer):
     if request.method == 'GET':
-        # Retrieve customer suffix's from database
+        #Retrieve customer suffix's from database
         #init_db()
         customers = query_db('select * from customers')
         print("get-request")
         for row in customers:
             if customer == row["suffix"]:
                 print (customer)
-                return render_template("customer.html", customerFriendly=row["name"], customer=customer, customerApi=row["url"], pricetable=row["pricetable"], pricefield=row["pricefield"], nametable=row["nametable"], namefield=row["namefield"], amounttable=row["amounttable"], amountfield=row["amountfield"], picturetable=row["picturetable"], picturefield=row["picturefield"])
+                return render_template("customer.html", customerFriendly=row["name"], customer=customer, customerApi=row["apiurl"], urlConfig=row["urlconfig"], pricetable=row["pricetable"], pricefield=row["pricefield"], nametable=row["nametable"], namefield=row["namefield"], amounttable=row["amounttable"], amountfield=row["amountfield"], picturetable=row["picturetable"], picturefield=row["picturefield"])
         
         return render_template("error.html", text="Customer not available")
     else:
-        apiURL = request.form['api-url']
+        urlConfig = request.form['url-config']
         print("post-request")
+        print("urlConfig:", urlConfig)
         customers = query_db('select * from customers')
         conn = sqlite3.connect('database.db')
-        conn.execute("UPDATE customers SET url = ? WHERE suffix = ?", (apiURL, customer))
+        conn.execute("UPDATE customers SET urlconfig = ? WHERE suffix = ?", (urlConfig, customer))
+        conn.commit()
         for row in customers:
             if customer == row["suffix"]:
-                print (customer)
-                return render_template("customer.html", customerFriendly=row["name"], customer=customer, customerApi=row["url"], pricetable=row["pricetable"], pricefield=row["pricefield"], nametable=row["nametable"], namefield=row["namefield"], amounttable=row["amounttable"], amountfield=row["amountfield"], picturetable=row["picturetable"], picturefield=row["picturefield"])
-        
+                print("config: 1", urlConfig, "2:", row["urlconfig"], "apiurl:", row["apiurl"])
+                if row["urlconfig"] == row["apiurl"]:
+                    print (customer)
+                    return render_template("customer.html", customerFriendly=row["name"], customer=customer, customerApi=row["apiurl"], pricetable=row["pricetable"], pricefield=row["pricefield"], nametable=row["nametable"], namefield=row["namefield"], amounttable=row["amounttable"], amountfield=row["amountfield"], picturetable=row["picturetable"], picturefield=row["picturefield"])
+                else:
+                    return render_template("error.html", text="Api endpoint not available")
 
 @app.teardown_appcontext
 def close_connection(exception):
