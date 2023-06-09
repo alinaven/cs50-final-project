@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+  {% block body %}
+  <div class="container customer-page">
+    <div class="row">
+        <div class="col-sm">
+            <h1>Customer admin</h1>
+        </div>   
+    </div>
+    <form action="admin" method="post">
+        <div class="row" class="api-url-field">
+          <div class="col-3 field-name">
+            API URL Intratuin
+          </div>
+          <div class="col-5 form-group">
+            <input name="url-config-intratuin" id="url-config-intratuin" type="text" class="form-control" placeholder="{{urlConfigIntratuin}}" value="{{urlConfigIntratuin}}">
+          </div>
+          <div class="col-3 field-name">
+            API URL Het Oosten
+          </div>
+          <div class="col-5 form-group">
+            <input name="url-config-hetoosten" id="url-config-hetoosten" type="text" class="form-control" placeholder="{{urlConfigHetOosten}}" value="{{urlConfigHetOosten}}">
+          </div>
+        </div>
+        <div class="row">  
+        <div class="col-2 mapper-button">
+            <button class="btn btn-light btn-outline-dark"" type="submit">Save</button>
+          </div>
+        </div>
+
+      </form>
+  </div>
+
+  {% endblock %}
