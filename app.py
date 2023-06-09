@@ -118,3 +118,34 @@ def close_connection(exception):
     db = getattr(g, '_database', None)
     if db is not None:
         db.close()
+
+@app.route("/admin", methods=["GET", "POST"])
+def admin():
+    if request.method == "GET":
+        # When GET request
+        customers = query_db('select * from customers')
+        urlConfigIntratuin = "" 
+        urlConfigHetOosten = "" 
+        for row in customers:
+            if row["suffix"] == "intratuin":
+                urlConfigIntratuin = row["urlconfig"]
+            elif row["suffix"] == "het_oosten":
+                urlConfigHetOosten = row["urlconfig"]
+        return render_template("admin.html", urlConfigIntratuin=urlConfigIntratuin, urlConfigHetOosten=urlConfigHetOosten)
+
+    else:
+        # When POST request
+        urlConfigIntratuin = request.form['url-config-intratuin']
+        urlConfigHetOosten = request.form['url-config-hetoosten']
+
+        customers = query_db('select * from customers')
+        conn = sqlite3.connect('database.db')
+        conn.execute("UPDATE customers SET urlconfig = ? WHERE suffix = ?", (urlConfigIntratuin, "intratuin"))
+        conn.execute("UPDATE customers SET urlconfig = ? WHERE suffix = ?", (urlConfigHetOosten, "het_oosten"))
+        conn.commit()
+        customers = query_db('select * from customers')
+        for row in customers:
+            if row["urlconfig"] != row["apiurl"]:
+                return render_template("error.html", text="This Api endpoint is not available. Make sure to change configuration.")
+        return render_template("admin.html", urlConfigIntratuin=urlConfigIntratuin, urlConfigHetOosten=urlConfigHetOosten)
+
