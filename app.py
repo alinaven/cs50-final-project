@@ -1,12 +1,22 @@
-from flask import Flask, render_template, g, request
-from helper import get_db, query_db, init_db
+from flask import Flask, render_template, g, request, session, redirect
+from flask_session import Session
+from helper import get_db, query_db, init_db, login_required
 import sqlite3
 import json
 
+# Configure application
 app = Flask(__name__)
+
+# Configure session to use filesystem (instead of signed cookies)
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
+
 
 @app.route("/")
 def index():
+    #Initialize
+    #init_db()
     return render_template("index.html")
 
 @app.route('/api/<customerApi>', methods=['GET', 'POST'])
@@ -23,7 +33,6 @@ def api(customerApi):
     PictureField = request.form['picture-field']
             
     # Get data source for customer
-    #init_db()
     customers = query_db('select * from customers')
     for row in customers:
         print('database entry: ' + row["apiurl"])
@@ -120,6 +129,7 @@ def close_connection(exception):
         db.close()
 
 @app.route("/admin", methods=["GET", "POST"])
+@login_required
 def admin():
     if request.method == "GET":
         # When GET request
@@ -148,4 +158,23 @@ def admin():
             if row["urlconfig"] != row["apiurl"]:
                 return render_template("error.html", text="This Api endpoint is not available. Make sure to change configuration.")
         return render_template("admin.html", urlConfigIntratuin=urlConfigIntratuin, urlConfigHetOosten=urlConfigHetOosten)
+
+
+@app.route("/admin-login", methods=['GET','POST'])
+def adminlogin():
+    if request.method == "GET":
+        return render_template("admin-login.html")
+    if request.method == "POST":
+        users = query_db('select * from users')
+        for user in users:
+            if user["username"] == request.form['admin-username'] and user["password"] == request.form['admin-password']:
+                session["user_id"] = user["id"]
+                return render_template("admin.html")
+        else:
+            return render_template("error.html", text="No correct username + password combination")
+        
+@app.route("/logout")
+def logout():
+    session.clear()
+    return render_template("error.html", text="You are logged out")
 
