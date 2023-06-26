@@ -1,6 +1,6 @@
 from flask import Flask, render_template, g, request, session, redirect
 from flask_session import Session
-from helper import get_db, query_db, init_db, login_required
+from helper import get_db, query_db, init_db, login_required, apology
 import sqlite3
 import json
 
@@ -57,7 +57,7 @@ def api(customerApi):
             try:
                 open(source, 'r')
             except:
-                return render_template("error.html", text="Data source of this customer is not available")
+                return apology("Data source of this customer is not available")
             with open(source, 'r') as f:
                 data = f.read()
                 records = json.loads(data)
@@ -86,8 +86,8 @@ def api(customerApi):
                             picture = "Not available"
                         return render_template("mapper.html", plantid=plantid, name=name, price=price, picture=picture, amount=amount, customer=customer, customerFriendly=row["name"])
                 else:  
-                    return render_template("error.html", text="Plant-id not found")
-    return render_template("error.html", text="This API cannot be found")   
+                    return apology("Plant-id not found")
+    return apology("This API cannot be found")   
 
 @app.route("/<customer>", methods=['GET', 'POST'])
 def checkcustomer(customer):
@@ -101,7 +101,7 @@ def checkcustomer(customer):
                 print (customer)
                 return render_template("customer.html", customerFriendly=row["name"], customer=customer, customerApi=row["apiurl"], urlConfig=row["urlconfig"], pricetable=row["pricetable"], pricefield=row["pricefield"], nametable=row["nametable"], namefield=row["namefield"], amounttable=row["amounttable"], amountfield=row["amountfield"], picturetable=row["picturetable"], picturefield=row["picturefield"])
         
-        return render_template("error.html", text="Customer not available")
+        return apology("Customer not available")
     
     else:
         urlConfig = request.form['url-config']
@@ -120,7 +120,7 @@ def checkcustomer(customer):
                     print (customer)
                     return render_template("customer.html", customerFriendly=row["name"], customer=customer, urlConfig=row["urlconfig"], customerApi=row["apiurl"], pricetable=row["pricetable"], pricefield=row["pricefield"], nametable=row["nametable"], namefield=row["namefield"], amounttable=row["amounttable"], amountfield=row["amountfield"], picturetable=row["picturetable"], picturefield=row["picturefield"])
                 else:
-                    return render_template("error.html", text="Api endpoint not available")
+                    return apology("Api endpoint not available")
 
 @app.teardown_appcontext
 def close_connection(exception):
@@ -141,7 +141,7 @@ def admin():
                 urlConfigIntratuin = row["urlconfig"]
             elif row["suffix"] == "het_oosten":
                 urlConfigHetOosten = row["urlconfig"]
-        return render_template("admin.html", urlConfigIntratuin=urlConfigIntratuin, urlConfigHetOosten=urlConfigHetOosten)
+        return render_template("admin.html", urlConfigIntratuin=urlConfigIntratuin, urlConfigHetOosten=urlConfigHetOosten, username=session["username"])
 
     else:
         # When POST request
@@ -156,8 +156,8 @@ def admin():
         customers = query_db('select * from customers')
         for row in customers:
             if row["urlconfig"] != row["apiurl"]:
-                return render_template("error.html", text="This Api endpoint is not available. Make sure to change configuration.")
-        return render_template("admin.html", urlConfigIntratuin=urlConfigIntratuin, urlConfigHetOosten=urlConfigHetOosten)
+                return apology("This Api endpoint is not available. Make sure to change configuration.")
+        return render_template("admin.html", urlConfigIntratuin=urlConfigIntratuin, urlConfigHetOosten=urlConfigHetOosten, username=session["username"])
 
 
 @app.route("/admin-login", methods=['GET','POST'])
@@ -169,12 +169,13 @@ def adminlogin():
         for user in users:
             if user["username"] == request.form['admin-username'] and user["password"] == request.form['admin-password']:
                 session["user_id"] = user["id"]
-                return render_template("admin.html")
+                session["username"] = user["username"]
+                return redirect("/admin")
         else:
-            return render_template("error.html", text="No correct username + password combination")
+            return apology("No correct username + password combination")
         
 @app.route("/logout")
 def logout():
     session.clear()
-    return render_template("error.html", text="You are logged out")
+    return apology("You are logged out")
 
