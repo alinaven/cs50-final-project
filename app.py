@@ -157,7 +157,8 @@ def admin():
         for row in customers:
             if row["urlconfig"] != row["apiurl"]:
                 return apology("This Api endpoint is not available. Make sure to change configuration.")
-        return render_template("admin.html", urlConfigIntratuin=urlConfigIntratuin, urlConfigHetOosten=urlConfigHetOosten, username=session["username"])
+      
+        return render_template("admin.html", urlConfigIntratuin=urlConfigIntratuin, urlConfigHetOosten=urlConfigHetOosten, username=session["username"], message="API URL('s) succesfully saved!")
 
 
 @app.route("/admin-login", methods=['GET','POST'])

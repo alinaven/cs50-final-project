@@ -5,8 +5,14 @@
         <div class="col-sm">
             <h1>Customer admin</h1>
             <h2>Logged in as {{username}}</h2>
-        </div>   
+        </div> 
+        {% if message %}
+          <div class = "success-message">
+            {{message}}
+          </div>   
+        {% endif %}
     </div>
+    
     <form action="admin" method="post">
         <div class="row" class="api-url-field">
           <div class="col-3 field-name">

@@ -11,8 +11,7 @@
 .homepage-header h1 {
     font-size: 110px !important;
     padding: 10px;
-    font-family: 'Caveat', cursive;
-    font-weight: bold;
+    font-family: 'DM sans';
 }
 
 .homepage-descripton {
@@ -29,6 +28,11 @@ h2 {
     font-size: 25px;
 }
 
+* {
+    font-family: 'DM sans' !important;
+}
+
+
 .store-selection-buttons {
     margin: 10px;
     padding: 10px;
@@ -38,11 +42,17 @@ h2 {
 
 .store-selection-button {
     margin: 10px;
-    padding: 10px;
+    padding: 30px !important;
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
+    font-size: 25px !important;
 }
 
 .store-selection-text {
     color: white;
+    text-align: right;
+    margin-right: 21px;
+    font-size: 50px;
 }
 
 .plant-ID-input {
@@ -59,3 +69,19 @@ h2 {
     margin-bottom: 20px;
 }
 
+.homepage-descripton p{
+    font-size: 20px;
+}
+
+div[data-lastpass-icon-root] {
+    display: none;
+  }
+
+.success-message {
+    background-color: rgb(201, 227, 201);
+    text-align: center;
+    color: green;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+}
