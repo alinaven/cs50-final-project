@@ -37,7 +37,7 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-def apology(message, code=400):
+def apology(message, code="oh no"):
     """Render message as an apology to user."""
     def escape(s):
         """
