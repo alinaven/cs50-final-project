@@ -1,6 +1,6 @@
 from flask import Flask, render_template, g, request, session, redirect
 from flask_session import Session
-from helper import get_db, query_db, init_db, login_required, apology
+from helper import get_db, query_db, init_db, login_required, apology, insertUser, retrieveUsers
 import sqlite3
 import json
 
@@ -174,6 +174,19 @@ def adminlogin():
                 return redirect("/admin")
         else:
             return apology("No correct username + password combination")
+        
+
+@app.route("/register", methods=['GET', 'POST'])
+def register():
+    if request.method=='POST':
+        username = request.form['username']
+        password = request.form['password']
+        insertUser(username, password)
+        users = retrieveUsers()
+        return render_template('register.html', users=users)
+   	    
+    else:
+   	    return render_template('register.html')
         
 @app.route("/logout")
 def logout():
