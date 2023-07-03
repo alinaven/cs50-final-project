@@ -1,4 +1,4 @@
-from flask import Flask, render_template, g, request, session, redirect
+from flask import Flask, render_template, g, request, session, redirect, url_for
 from flask_session import Session
 from helper import get_db, query_db, init_db, login_required, apology, insertUser, retrieveUsers
 import sqlite3
@@ -181,15 +181,19 @@ def register():
     if request.method=='POST':
         username = request.form['username']
         password = request.form['password']
-        insertUser(username, password)
-        users = retrieveUsers()
-        return render_template('register.html', users=users)
+        password2 = request.form['password2']
+        if password == password2:
+            insertUser(username, password)
+            users = retrieveUsers()
+            return render_template('admin-register.html', users=users, message="Registration was successful")
+        else: 
+            return apology("Passwords didn't match")
    	    
     else:
-   	    return render_template('register.html')
+   	    return render_template('admin-register.html')
         
 @app.route("/logout")
 def logout():
     session.clear()
-    return apology("You are logged out")
+    return redirect("/admin-login")
 

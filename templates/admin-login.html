@@ -3,7 +3,15 @@
   <div class="container customer-page">
     <div class="row">
         <div class="col-sm">
-            <h1>Admin log-in</h1> 
+            {% if message %}
+          <div class = "success-message">
+            {{message}}
+          </div>   
+        {% endif %}
+            <h1>Admin log-in</h1>
+        </div>
+        <div class="col-sm">
+            <button class="btn btn-light btn-outline-dark signup-button" onclick="window.location.href = '/register';">Sign up</button>  
         </div>
     </div>
     <div class="row">
@@ -31,7 +39,6 @@
                     </div>
                 </div>
             </form>
-            <button class="btn btn-light btn-outline-dark" onclick="window.location.href = '/register';">Sign up</button>  
         </div>
   </div>
 

@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+  {% block body %}
+    <div class="container customer-page">
+		<div class="row">
+			<div class="col">
+				<form action="/register" method="post">
+					<div class="row" class="api-url-field">
+						<div class="col-3 field-name">
+							Select username
+						</div>
+						<div class="col-5 form-group">
+							<input class="api-url-field" type="text" name="username" id="username" placeholder="Username" required/>
+						</div>
+					</div>
+					<div class="row" class="api-url-field">
+						<div class="col-3 field-name">
+							Select password
+						</div>
+						<div class="col-5 form-group">
+							<input class="api-url-field" type="password" name="password" id="password" placeholder="Password" required/>
+						</div>
+						<div class="col-3 field-name">
+							Enter password again
+						</div>
+						<div class="col-5 form-group">
+							<input class="api-url-field" type="password" name="password2" id="password2" placeholder="Repeast password" required/>
+						</div>
+					</div>
+					<div class="row">  
+						<div class="col-2 mapper-button">
+							<button class="btn btn-light btn-outline-dark" type="submit">Sign up</button>
+						</div>
+					</div>
+				</form>
+			</div>
+	 	</div>
+	</div>
+{% endblock %}
