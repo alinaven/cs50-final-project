@@ -1,7 +1,11 @@
 {% extends "layout.html" %}
   {% block body %}
     <div class="container customer-page">
-		<div class="row">
+		{% if message %}
+          <div class = "success-message">
+            {{message}}
+          </div>   
+        {% endif %}
 			<div class="col">
 				<form action="/register" method="post">
 					<div class="row" class="api-url-field">
@@ -23,7 +27,7 @@
 							Enter password again
 						</div>
 						<div class="col-5 form-group">
-							<input class="api-url-field" type="password" name="password2" id="password2" placeholder="Repeast password" required/>
+							<input class="api-url-field" type="password" name="password2" id="password2" placeholder="Repeat password" required/>
 						</div>
 					</div>
 					<div class="row">  
