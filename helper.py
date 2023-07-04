@@ -50,3 +50,18 @@ def apology(message, code="oh no"):
             s = s.replace(old, new)
         return s
     return render_template("apology.html", top=code, bottom=escape(message)), code
+
+def insertUser(username,password):
+    conn = sqlite3.connect("database.db")
+    cur = conn.cursor()
+    cur.execute("INSERT INTO users (username,password) VALUES (?,?)", (username,password))
+    conn.commit()
+    conn.close()
+
+def retrieveUsers():
+	conn = sqlite3.connect("database.db")
+	cur = conn.cursor()
+	cur.execute("SELECT username, password FROM users")
+	users = cur.fetchall()
+	conn.close()
+	return users
