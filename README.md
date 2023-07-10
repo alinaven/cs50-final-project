@@ -40,6 +40,56 @@ This dynamic route is designed for simulating the specific customer's API. Only 
   - If no API match is found, `apology.html` is rendered with error message _"This API cannot be found"_
 
 ## Route `/admin`
-This route is designed for allowing admin users (for who authentication is required) to change the API URLs of the different customers.
-- Using `login_required` from `helper.py` checks if an active session exists of an authenticated user. If not, a redirect to route `/admin-login` is triggered.
-- 
+This route is designed to allow admin users (for who authentication is required) to manage the API URLs of the two customers, _Intratuin_ and _Het Oosten_ in one page. Both `GET` as `POST` requests are supported. This route is loaded for a `GET` request after an user navigated to _Customer admin_ in the (burger) menu or as redirect after a succesfull log-in on `admin-login.html`. This route is loaded for a `POST` request after an user submits an API URL configuration form on `admin.html` succesfully.
+- `login_required` from `helper.py` checks if an active session exists of an authenticated user. If not, a redirect to route `/admin-login` is triggered.
+- If the route is loaded via a `GET` request
+  - All customer data from `customer.db` is queried using the function `query_db`.
+  - The configured API URLs for both the customer _Intratuin_ as _Het Oosten_ are retrieved from the `urlconfig` fields from `customers` table in the database. These configured API URLs are stored in parameters `urlConfigIntratuin` and `urlConfigHetOosten`.
+  - Template `admin.html` is rendered. Parameters `urlConfigIntratuin` and `urlConfigHetOosten` are parsed so that they can be visualized as currenct configuration to the user. The `username` parameter is defined using the `session` and is parsed as well to show the user who is logged in at the moment.
+- If the route is loaded via a `POST` request after the API URl configuration form is submitted within `admin.html`,
+  - Parameters `urlConfigIntratuin` and `urlConfigHetOosten` are filled with form results for `url-config-intratuin` and `url-config-hetoosten` respectively.
+  - A connection is made to the database and database fields `urlconfig` for both customers are updated.
+  - All customer data from `customer.db` is queried using the function `query_db`.
+  - The configured API URLs are checked by searching for a match between the configured API URL (`urlconfig`) and real API URL (`apiurl`) per customer in the `customers` table.
+    - If a mismatch is found for one of the customers, `apology.html` is rendered with error message _This Api endpoint is not available. Make sure to change configuration_.
+    - If both match, `admin.html` is rendered with parsed paramaters `urlConfigIntratuin`, `urlConfigHetOosten`, `username` and `message`, being _"API URL(s) succesfully saved!"_ (to show the user a confirmation message).
+
+## Route `/register`
+This route is designed for user registration. The route supports both `GET` as `POST` requests.
+- If the route is loaded via a `POST` request after a register form submission on `admin-register.html`
+  - Form inputs username and both passwords are stored in parameters `username`, `password` and `password2`.
+  - Password validation is carried out by comparing `password` and `password2`. If valid,
+    - the username and password are inserted in database using `insertUser` from `helper.py`. Parameter `users` is defined by retrieving all user data from database using `retrieveUsers` from `helper.py`.
+    - `admin-register.html` is rendered with parsed parameters `users` and `message`, being _"Registration was succesfull"_ to show as confirmation message
+   - If both passwords don't match, `apology.html` is rendered with message _"Passwords didn't match"_
+
+## Route `/logout`
+This route is designed to perform a log-out. Only `GET` requests are supported, loaded via clicking the button _Log-out_ on `admin.html`
+- Session is cleared using the `session.clear()` function of Flask library and a redirect to `/admin-login` is triggered.
+
+## Teardown
+If application is closed, the connection to the database is also closed using `getattr` from Python library and `db.close()` function from sqlite3 library.
+
+# `helper.py`
+`helper.py` contains helper functions used within `app.py`. The general variable `DATABASE` is defined as being `database.db`.
+
+## `get_db`
+Function to connect to a database. No inputs required.
+
+## `query_db`
+Function to execute queries on the database and store the results in an array. Inputs are a query (`query`), arguments to fill in the query (`args`). Output is an array of the results (`rv[0]`)
+
+## `init_db`
+Function to perform database initialization. As we are only working with a local database, the database needs to be initialized during first use. `schema.sql` is used as query source.
+
+## `login_required`
+Function to check if a session with an authenticated user is active.
+
+## `apology`
+Function to create an error image and render `apology.html` with this error image. Inputs are an error message (`message`) and an error code (`code`). 
+
+## `insertUser`
+Function to insert the `username` and `password` of an user in the `users` table of the database. Inputs are `username` and `password`. 
+
+## `retrieveUsers`
+Function to retrieve all users from the `users` table of the database.
