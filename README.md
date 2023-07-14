@@ -29,12 +29,12 @@ Below the included files and what they do.
 ### Folder: templates
 - `Layout.html`: Layout base, include the header and menu structure. Here we also included bootstrap and imported fonts.
 - `Index.html`: The homepage, giving a short introduction to the page and the link to both customer sites.
-- `Customer.html`: The mapping can be filled in. The chosen customer is filled in dynamically so we don't have to copy and paste the same code for each new customer. When entering a plant id to save and test the mapping, a post request is done to retrieve the data, rendering the output via the mapper.html.
-- `Mapper.html`: This template shows the output of the different data fields for a specific plant-id, depending on the mapping that is set on the customer.html, which customer you have selected before and which plantID was entered.
-- `Admin.html`: After log-in you can set the API URLs to be requested for each customer on this page. If saving correctly, a succes message is shown. The page also shows for which user you are logged in.
-- `Admin-login.html`: On this page you can log in for a previously created user.
-- `Admin-register.html`: On this page you can create a new user.
-- `Apology.html`
+- `Customer.html`: The mapping can be filled in. To do so, this template contains a form to make a post-request to save the specified mapping fields. The chosen customer is filled in dynamically so we don't have to copy and paste the same code for each new customer, retrieving the friendly customer name, the set API address and set mapping from the database to fill in. When entering a plant id to save and test the mapping, a post request is done to retrieve the data, rendering the output via the mapper.html.
+- `Mapper.html`: This template shows the output of the different data fields for a specific plant-id, depending on the mapping that is set on the customer.html, which customer you have selected before and which plantID was entered. The plantid, and the output of the different fields depending on the mapping specified in the customer.html are passed to this page as parameters.
+- `Admin.html`: After log-in you can set the API URLs to be requested for each customer on this page. If saving correctly, a success message is shown when that message is passed to this template as a parameter. The page also shows for which user you are logged in, retrieving this from the current session. The configured URLs are retrieved from the database in the app.py and passed as parameters to this html. The template contains a form for a post-request to save API URLs.
+- `Admin-login.html`: On this page you can log in for a previously created user. A success message is shown when that message is passed to this template as a parameter. The template contains a form for a post-request to log-in. 
+- `Admin-register.html`: On this page you can create a new user. A success message is shown when that message is passed to this template as a parameter. The template contains a form to make a post request for registering as a user.
+- `Apology.html`: This page handles error messages, using the error code and error message that is handed to the page as parameters to show a specific error meme.
 
 ### Database and source data files
 - `database.db`: The database containing the registered users and the saved mapping for customers.
